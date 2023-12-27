@@ -1,26 +1,28 @@
 import { Account, Client, ID } from "appwrite";
 import config from "./config";
 
-const client = new Client();
-
 interface ICreateAccount {
   username: string;
   email: string;
   password: string;
 }
 
-client.setEndpoint(config.appwriteURL).setProject(config.appwriteProjectID);
+const appwriteClient = new Client();
 
-const account = new Account(client);
+appwriteClient
+  .setEndpoint(config.appwriteUrl)
+  .setProject(config.appwriteProjectId);
+
+const account = new Account(appwriteClient);
 
 export class AppwriteService {
   async createAccount({ username, email, password }: ICreateAccount) {
     try {
       const userAcc = await account.create(
         ID.unique(),
-        username,
         email,
-        password
+        password,
+        username
       );
 
       if (userAcc) {
@@ -36,7 +38,7 @@ export class AppwriteService {
   async login({ email, password }: { email: string; password: string }) {
     try {
       return await account.createEmailSession(email, password);
-    } catch (error) {
+    } catch (error: any) {
       throw error;
     }
   }
@@ -45,17 +47,15 @@ export class AppwriteService {
     try {
       const data = await this.getUser();
       return Boolean(data);
-    } catch (error) {
-      throw error;
-    }
+    } catch (error) {}
+    return false;
   }
 
   async getUser() {
     try {
       return await account.get();
-    } catch (error) {
-      throw error;
-    }
+    } catch (error) {}
+    return null;
   }
 
   async logout() {

@@ -1,6 +1,6 @@
 "use client";
 
-import appwriteService from "../appwrite-service";
+import appwriteService from "../appwrite-service/appwrite";
 
 
 export default function Page(): JSX.Element {
@@ -8,7 +8,7 @@ export default function Page(): JSX.Element {
     appwriteService
       .createAccount({
         email: "test@gmail.com",
-        password: "test",
+        password: "test123456",
         username: "test",
       })
       .then((res) => console.log(res));
