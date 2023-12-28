@@ -19,7 +19,7 @@ export class AppwriteService {
   async createAccount({ username, email, password }: ICreateAccount) {
     try {
       const userAcc = await account.create(
-        ID.unique(),
+        username,
         email,
         password,
         username

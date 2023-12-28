@@ -39,7 +39,7 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function SignIn() {
   const router = useRouter();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,10 +51,9 @@ export default function SignUp() {
     };
     if (dataDestruct.email && dataDestruct.password.length >= 8) {
       try {
-        appwriteService.createAccount({
+        appwriteService.login({
           email: dataDestruct.email,
           password: dataDestruct.password,
-          username: "aditya_ooops",
         });
       } catch (error) {
         throw error;
@@ -77,7 +76,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign in
           </Typography>
           <Box
             component="form"
@@ -113,7 +112,7 @@ export default function SignUp() {
               fullWidth
               variant="outlined"
               sx={{ mt: 3, mb: 2 }}>
-              Sign Up
+              Sign In
             </Button>
             <Grid container>
               <Grid item xs>
@@ -124,9 +123,8 @@ export default function SignUp() {
               <Grid item>
                 <button
                   className="text-blue-500 hover:text-blue-600"
-                  onClick={() => router.push("signin")}
-                >
-                  {"Already have an account? Sign In"}
+                  onClick={() => router.push("signup")}>
+                  {"Don't have an account? Sign Up"}
                 </button>
               </Grid>
             </Grid>

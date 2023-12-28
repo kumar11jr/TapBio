@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./global.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Tap Bio",
-  description: "Tab Bio is a bio link tool for creators.",
+  title: "Sign up",
+  description: "Sign up for a new account",
 };
 
 export default function RootLayout({
@@ -16,7 +15,9 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body style={{ backgroundColor: "#dedede", height:"100vh" }} className={inter.className}>
+        {children}
+      </body>
     </html>
   );
 }
