@@ -24,6 +24,9 @@
     "packages/*"
   ],
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.2",
     "appwrite": "^13.0.1",
     "express": "^4.18.2"
   }
