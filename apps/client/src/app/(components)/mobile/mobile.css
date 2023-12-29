@@ -1,0 +1,37 @@
+.phone {
+    position: relative;
+    width: 300px;
+    height: 500px;
+    border: 10px solid black; 
+    border-radius: 40px;
+    margin: 50px auto;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+ 
+  .screen {
+    width: calc(100% - 0px); 
+    height: 99%;
+    background-color: #fff;
+    overflow-y: auto;
+    padding: 10px;
+    white-space: nowrap; 
+  }
+  
+ 
+  .card {
+    width: calc(100% - 40px); 
+    margin: 5px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: top;
+    white-space: normal; 
+  }
+  
+  .card h2 {
+    margin-bottom: 10px;
+  }
+  
