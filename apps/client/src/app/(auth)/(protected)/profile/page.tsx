@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Mobile from '@/app/(components)/mobile/mobile';
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import { Mobile } from "@/components";
 
 interface CardItem {
   linkName: string;
@@ -19,27 +19,33 @@ const Profile: React.FC = () => {
 
   const addCard = () => {
     const newCard: CardItem = {
-      linkName: '',
-      linkURL: '',
+      linkName: "",
+      linkURL: "",
       editing: true,
     };
     setCards([...cards, newCard]);
   };
 
-  const handleLinkNameChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedCards = [...cards];
+  const handleLinkNameChange = (
+    index: number,
+    event: any
+  ) => {
+    const updatedCards: any[any] = [...cards];
     updatedCards[index].linkName = event.target.value;
     setCards(updatedCards);
   };
 
-  const handleLinkURLChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedCards = [...cards];
+  const handleLinkURLChange = (
+    index: number,
+    event: any
+  ) => {
+    const updatedCards: any = [...cards];
     updatedCards[index].linkURL = event.target.value;
     setCards(updatedCards);
   };
 
   const handleSave = (index: number) => {
-    const updatedCards = [...cards];
+    const updatedCards: any = [...cards];
     updatedCards[index].editing = false;
     setCards(updatedCards);
 
@@ -52,15 +58,12 @@ const Profile: React.FC = () => {
   };
 
   return (
-    
     <div className="flex p-4">
-        
       <div className="w-3/4">
         <Button
           className="bg-blue-500 hover:text-blue-600"
           variant="contained"
-          onClick={addCard}
-        >
+          onClick={addCard}>
           Add link
         </Button>
         <div className="mt-4">
@@ -89,16 +92,14 @@ const Profile: React.FC = () => {
                       className="bg-blue-500 hover:text-blue-600"
                       variant="contained"
                       color="primary"
-                      onClick={() => handleSave(index)}
-                    >
+                      onClick={() => handleSave(index)}>
                       Save
                     </Button>
                     <Button
                       className="bg-red-500 hover:text-red-600"
                       variant="contained"
                       color="primary"
-                      onClick={() => handleDelete(index)}
-                    >
+                      onClick={() => handleDelete(index)}>
                       Delete
                     </Button>
                   </CardContent>
@@ -117,19 +118,17 @@ const Profile: React.FC = () => {
                       variant="contained"
                       color="primary"
                       onClick={() => {
-                        const updatedCards = [...cards];
+                        const updatedCards: any = [...cards];
                         updatedCards[index].editing = true;
                         setCards(updatedCards);
-                      }}
-                    >
+                      }}>
                       Edit
                     </Button>
                     <Button
                       className="bg-red-500 hover:text-red-600"
                       variant="contained"
                       color="primary"
-                      onClick={() => handleDelete(index)}
-                    >
+                      onClick={() => handleDelete(index)}>
                       Delete
                     </Button>
                   </CardContent>
@@ -143,7 +142,6 @@ const Profile: React.FC = () => {
         <Mobile cards={cards} />
       </div>
     </div>
-    
   );
 };
 

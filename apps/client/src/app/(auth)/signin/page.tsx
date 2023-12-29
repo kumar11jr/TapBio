@@ -51,10 +51,12 @@ export default function SignIn() {
     };
     if (dataDestruct.email && dataDestruct.password.length >= 8) {
       try {
-        appwriteService.login({
-          email: dataDestruct.email,
-          password: dataDestruct.password,
-        });
+        appwriteService
+          .login({
+            email: dataDestruct.email,
+            password: dataDestruct.password,
+          })
+          .then((res) => console.log(res));
       } catch (error) {
         throw error;
       }
