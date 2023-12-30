@@ -1,4 +1,4 @@
-import { Account, Client, ID } from "appwrite";
+import { Account, Client } from "appwrite";
 import config from "./config";
 
 interface ICreateAccount {
