@@ -18,6 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import appwriteService from "@/appwrite-service/appwrite";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/user/useUserCTX";
 
 function Copyright(props: any) {
   return (
@@ -41,6 +42,7 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
   const router = useRouter();
+  const user = useUser();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,11 +53,16 @@ export default function SignUp() {
     };
     if (dataDestruct.email && dataDestruct.password.length >= 8) {
       try {
-        appwriteService.createAccount({
-          email: dataDestruct.email,
-          password: dataDestruct.password,
-          username: "aditya_ooops",
-        });
+        const { username } = user.getUser();
+        appwriteService
+          .createAccount({
+            email: dataDestruct.email,
+            password: dataDestruct.password,
+            username,
+          })
+          .then((res) => {
+            // todo add userdata to context
+          });
       } catch (error) {
         throw error;
       }
@@ -124,8 +131,7 @@ export default function SignUp() {
               <Grid item>
                 <button
                   className="text-blue-500 hover:text-blue-600"
-                  onClick={() => router.push("signin")}
-                >
+                  onClick={() => router.push("signin")}>
                   {"Already have an account? Sign In"}
                 </button>
               </Grid>

@@ -18,6 +18,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import appwriteService from "@/appwrite-service/appwrite";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/user/useUserCTX";
 
 function Copyright(props: any) {
   return (
@@ -41,6 +42,7 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const router = useRouter();
+  const user = useUser();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -56,7 +58,14 @@ export default function SignIn() {
             email: dataDestruct.email,
             password: dataDestruct.password,
           })
-          .then((res) => console.log(res));
+          .then((res) => {
+            const data = {
+              uid: res.userId,
+              platform: "",
+              url: "",
+            };
+            user.saveUser(data);
+          });
       } catch (error) {
         throw error;
       }
