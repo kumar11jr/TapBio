@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 "use client";
 import * as React from "react";
 
@@ -43,6 +44,7 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const router = useRouter();
   const user = useUser();
+  
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
