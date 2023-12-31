@@ -2,7 +2,7 @@
 import { createContext, useContext, useState } from "react";
 
 export interface IUser {
-  uid: string;
+  uid: string | "invalid";
   platform: string;
   url: string;
 }
@@ -22,7 +22,7 @@ export const UserProvider = (props: any) => {
   };
 
   const getUser = async () => {
-    return userData;
+    return userData || { uid: "invalid", platform: "", url: "" };
   };
 
   return (

@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-catch */
 "use client";
-import * as React from "react";
+import React, { useEffect } from "react";
 
 // Material UI Imports
 import Avatar from "@mui/material/Avatar";
@@ -44,7 +44,7 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const router = useRouter();
   const user = useUser();
-  
+  const [username, setUsername] = React.useState<string>("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -56,20 +56,22 @@ export default function SignUp() {
     if (dataDestruct.email && dataDestruct.password.length >= 8) {
       try {
         const { username } = user.getUser();
-        appwriteService
-          .createAccount({
-            email: dataDestruct.email,
-            password: dataDestruct.password,
-            username,
-          })
-          .then((res) => {
-            // todo add userdata to context
-          });
+        appwriteService.createAccount({
+          email: dataDestruct.email,
+          password: dataDestruct.password,
+          username,
+        });
       } catch (error) {
         throw error;
       }
     }
   };
+
+  useEffect(() => {
+    user.getUser().then((res: any) => {
+      setUsername(res.uid);
+    });
+  }, []);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -93,6 +95,16 @@ export default function SignUp() {
             onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              value={username}
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+            />
             <TextField
               margin="normal"
               required
