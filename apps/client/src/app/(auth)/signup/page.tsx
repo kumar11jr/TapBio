@@ -44,6 +44,7 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const router = useRouter();
   const user = useUser();
+  
   const [username, setUsername] = React.useState<string>("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,8 +56,7 @@ export default function SignUp() {
     };
     if (dataDestruct.email && dataDestruct.password.length >= 8) {
       try {
-        const { username } = user.getUser();
-        appwriteService.createAccount({
+          appwriteService.createAccount({
           email: dataDestruct.email,
           password: dataDestruct.password,
           username,
@@ -100,6 +100,7 @@ export default function SignUp() {
               required
               fullWidth
               value={username}
+              onChange={(e)=>setUsername(e.target.value)}
               id="username"
               label="Username"
               name="username"
