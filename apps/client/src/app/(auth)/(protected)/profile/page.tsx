@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -58,7 +57,7 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <div className="flex p-4">
+    <div className="flex justify-center p-4">
       <div className="w-3/4">
         <Button
           className="bg-blue-500 hover:text-blue-600"
@@ -138,7 +137,7 @@ const Profile: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className="w-1/4">
+      <div className="flex justify-center w-1/4">
         <Mobile cards={cards} />
       </div>
     </div>
