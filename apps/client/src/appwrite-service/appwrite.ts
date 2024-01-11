@@ -31,7 +31,7 @@ export class AppwriteService {
         return userAcc;
       }
     } catch (error) {
-      throw error;
+      throw new Error("User Id or Email already exists");
     }
   }
 
