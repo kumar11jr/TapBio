@@ -14,8 +14,10 @@ const Mobile: React.FC<MobileProps> = ({ cards }) => {
   return (
     <div className="text-black justify-center flex items-center h-[832px] w-[384px] bg-gray-300 rounded-[35px] border-2 border-gray-800 ">
       <div className="border-[7px] border-black w-full h-full rounded-[33px] bg-green-400 ">
+        {/* Notch */}
         <div className="notch w-28 h-8 bg-black mx-auto mt-3 rounded-full"></div>
-        <div className="screen">
+        {/* cards */}
+        <div className="flex justify-center pt-10">
           {cards.map((card, index) => (
             <div key={index} className="card">
               <h2>{card.linkName}</h2>
