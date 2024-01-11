@@ -29,6 +29,12 @@ export default function Page(): JSX.Element {
     }
   };
 
+  const generateTapBioOnEnter = (e: any) => {
+    if (e.key === "Enter") {
+      generateTapBio();
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col items-center justify-center h-screen">
@@ -42,6 +48,7 @@ export default function Page(): JSX.Element {
               onChange={handleInputChange}
               type="text"
               placeholder="Username"
+              onKeyDown={generateTapBioOnEnter}
             />
             <Button onClick={generateTapBio} type="submit">
               Claim TapBio

@@ -70,6 +70,12 @@ export default function SignIn() {
     }
   };
 
+  const handleEnterClick = (e: any) => {
+    if (e.key === "Enter") {
+      document.getElementById("submitSignIn")?.click();
+    }
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -101,6 +107,7 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              onKeyDown={handleEnterClick}
             />
             <TextField
               margin="normal"
@@ -111,11 +118,13 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onKeyDown={handleEnterClick}
             />
             <Button
               type="submit"
               fullWidth
               variant="outlined"
+              id="submitSignIn"
               sx={{ mt: 3, mb: 2 }}>
               Sign In
             </Button>

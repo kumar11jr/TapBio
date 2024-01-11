@@ -42,7 +42,7 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const router = useRouter();
   const user = useUser();
-  
+
   const [username, setUsername] = React.useState<string>("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -54,7 +54,7 @@ export default function SignUp() {
     };
     if (dataDestruct.email && dataDestruct.password.length >= 8) {
       try {
-          appwriteService.createAccount({
+        appwriteService.createAccount({
           email: dataDestruct.email,
           password: dataDestruct.password,
           username,
@@ -62,6 +62,12 @@ export default function SignUp() {
       } catch (error) {
         throw error;
       }
+    }
+  };
+
+  const handleEnterPress = (e: any) => {
+    if (e.key === "Enter") {
+      document.getElementById("submitBtn")?.click();
     }
   };
 
@@ -98,11 +104,12 @@ export default function SignUp() {
               required
               fullWidth
               value={username}
-              onChange={(e)=>setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               id="username"
               label="Username"
               name="username"
               autoComplete="username"
+              onKeyDown={handleEnterPress}
             />
             <TextField
               margin="normal"
@@ -113,6 +120,7 @@ export default function SignUp() {
               name="email"
               autoComplete="email"
               autoFocus
+              onKeyDown={handleEnterPress}
             />
             <TextField
               margin="normal"
@@ -123,11 +131,13 @@ export default function SignUp() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onKeyDown={handleEnterPress}
             />
             <Button
               type="submit"
               fullWidth
               variant="outlined"
+              id="submitBtn"
               sx={{ mt: 3, mb: 2 }}>
               Sign Up
             </Button>
