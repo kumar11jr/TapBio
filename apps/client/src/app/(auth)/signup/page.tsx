@@ -37,7 +37,7 @@ function Copyright(props: any) {
 }
 
 // TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
+// const defaultTheme = createTheme();
 
 export default function SignUp() {
   const router = useRouter();
@@ -78,87 +78,90 @@ export default function SignUp() {
   }, []);
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}>
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              onKeyDown={handleEnterPress}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onKeyDown={handleEnterPress}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onKeyDown={handleEnterPress}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="outlined"
-              id="submitBtn"
-              sx={{ mt: 3, mb: 2 }}>
-              Sign Up
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <button
-                  className="text-blue-500 hover:text-blue-600"
-                  onClick={() => router.push("signin")}>
-                  {"Already have an account? Sign In"}
-                </button>
-              </Grid>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          color: "secindary.main",
+        }}>
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign up
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            color="secondary"
+            variant="standard"
+            required
+            fullWidth
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            onKeyDown={handleEnterPress}
+          />
+          <TextField
+            margin="normal"
+            color="secondary"
+            variant="standard"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            onKeyDown={handleEnterPress}
+          />
+          <TextField
+            margin="normal"
+            color="secondary"
+            variant="standard"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onKeyDown={handleEnterPress}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="secondary"
+            autoFocus
+            id="submitBtn"
+            sx={{ mt: 3, mb: 2 }}>
+            Sign Up
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
             </Grid>
-          </Box>
+            <Grid item>
+              <button
+                className="text-blue-500 hover:text-blue-600"
+                onClick={() => router.push("signin")}>
+                {"Already have an account? Sign In"}
+              </button>
+            </Grid>
+          </Grid>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+      </Box>
+      <Copyright sx={{ mt: 8, mb: 4 }} />
+    </Container>
   );
 }

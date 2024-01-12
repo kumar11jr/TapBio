@@ -137,7 +137,7 @@ const Profile: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className="flex justify-center w-1/4">
+      <div className="flex justify-center w-[100%]">
         <Mobile cards={cards} />
       </div>
     </div>

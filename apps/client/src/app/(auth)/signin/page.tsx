@@ -100,6 +100,8 @@ export default function SignIn() {
             sx={{ mt: 1 }}>
             <TextField
               margin="normal"
+              color="secondary"
+              variant="standard"
               required
               fullWidth
               id="email"
@@ -111,6 +113,8 @@ export default function SignIn() {
             />
             <TextField
               margin="normal"
+              color="secondary"
+              variant="standard"
               required
               fullWidth
               name="password"
@@ -123,7 +127,9 @@ export default function SignIn() {
             <Button
               type="submit"
               fullWidth
-              variant="outlined"
+              variant="contained"
+              color="secondary"
+              autoFocus
               id="submitSignIn"
               sx={{ mt: 3, mb: 2 }}>
               Sign In
