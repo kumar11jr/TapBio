@@ -58,7 +58,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="flex justify-center p-4">
-      <div className="w-3/4">
+      <div className="w-[70%]">
         <Button
           className="bg-blue-500 hover:text-blue-600"
           variant="contained"
@@ -137,7 +137,7 @@ const Profile: React.FC = () => {
           ))}
         </div>
       </div>
-      <div className="flex justify-center w-[100%]">
+      <div className="flex justify-center w-[30%]">
         <Mobile cards={cards} />
       </div>
     </div>

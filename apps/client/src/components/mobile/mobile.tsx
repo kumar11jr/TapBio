@@ -1,5 +1,5 @@
 import React from "react";
-import './mobile.css';
+import ButtonCard from "../ButtonCard/Button";
 
 interface CardItem {
   linkName: string;
@@ -17,13 +17,12 @@ const Mobile: React.FC<MobileProps> = ({ cards }) => {
         {/* Notch */}
         <div className="notch w-[89px] h-[25px] bg-black mx-auto mt-3 rounded-full"></div>
         {/* cards */}
-        <div className="flex justify-center pt-10">
+        <div className="flex flex-col items-center pt-10">
           {cards.map((card, index) => (
-            <div key={index} className="card">
-              <h2>{card.linkName}</h2>
-              <p>{card.linkURL}</p>
+            <div key={index} className="w-[80%] text-white">
+              <ButtonCard linkName={card.linkName} linkURL={card.linkURL} />
             </div>
-          ))}
+          ))} 
         </div>
       </div>
     </div>

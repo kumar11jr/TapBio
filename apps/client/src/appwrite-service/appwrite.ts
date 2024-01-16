@@ -22,7 +22,7 @@ export class AppwriteService {
         username,
         email,
         password,
-        username
+        username  // Here we have two usernames, one is for the name and the other is for UID
       );
 
       if (userAcc) {

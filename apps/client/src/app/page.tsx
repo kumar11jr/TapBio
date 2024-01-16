@@ -20,8 +20,7 @@ export default function Page(): JSX.Element {
       user
         .saveUser({
           uid: username,
-          platform: "",
-          url: "",
+          name: ""
         })
         .then(() => {
           router.push("/signup");
