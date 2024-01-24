@@ -1,11 +1,24 @@
 "use client";
 import { useState } from "react";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Mobile } from "@/components";
+import { Button } from "@/components/ui/button";
 
 interface CardItem {
   linkName: string;
@@ -25,19 +38,13 @@ const Profile: React.FC = () => {
     setCards([...cards, newCard]);
   };
 
-  const handleLinkNameChange = (
-    index: number,
-    event: any
-  ) => {
+  const handleLinkNameChange = (index: number, event: any) => {
     const updatedCards: any[any] = [...cards];
     updatedCards[index].linkName = event.target.value;
     setCards(updatedCards);
   };
 
-  const handleLinkURLChange = (
-    index: number,
-    event: any
-  ) => {
+  const handleLinkURLChange = (index: number, event: any) => {
     const updatedCards: any = [...cards];
     updatedCards[index].linkURL = event.target.value;
     setCards(updatedCards);
@@ -61,7 +68,7 @@ const Profile: React.FC = () => {
       <div className="w-[70%]">
         <Button
           className="bg-blue-500 hover:text-blue-600"
-          variant="contained"
+          // variant="contained"
           onClick={addCard}>
           Add link
         </Button>
@@ -69,68 +76,78 @@ const Profile: React.FC = () => {
           {cards.map((card, index) => (
             <div key={index} className="my-4">
               {card.editing ? (
-                <Card>
-                  <CardContent>
-                    <TextField
-                      label="Link Name"
-                      value={card.linkName}
-                      onChange={(event) => handleLinkNameChange(index, event)}
-                      fullWidth
-                      variant="outlined"
-                      margin="normal"
-                    />
-                    <TextField
-                      label="Link URL"
-                      value={card.linkURL}
-                      onChange={(event) => handleLinkURLChange(index, event)}
-                      fullWidth
-                      variant="outlined"
-                      margin="normal"
-                    />
-                    <Button
-                      className="bg-blue-500 hover:text-blue-600"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleSave(index)}>
-                      Save
-                    </Button>
-                    <Button
-                      className="bg-red-500 hover:text-red-600"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleDelete(index)}>
-                      Delete
-                    </Button>
-                  </CardContent>
-                </Card>
+                <Card className="w-[300px] md:w-[950px]">
+                <CardHeader>
+                </CardHeader>
+                <CardContent>
+                  <form>
+                    <div className="grid w-full items-center gap-4">
+                      <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="name">Add Link</Label>
+                        <Input id="name" placeholder="Paste Link here" />
+                      </div>
+                      <div className="flex flex-col space-y-1.5">
+                        <Label htmlFor="framework">Platform</Label>
+                        <Select>
+                          <SelectTrigger id="framework">
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                          <SelectContent position="popper">
+                            <SelectItem value="github">GitHub</SelectItem>
+                            <SelectItem value="linkedIn">
+                              LinkedIn
+                            </SelectItem>
+                            <SelectItem value="instagran">Instagram</SelectItem>
+                            <SelectItem value="x">X</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  </form>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                  <Button variant="outline">Cancel</Button>
+                  <Button>Save</Button>
+                </CardFooter>
+              </Card>
               ) : (
-                <Card>
+                <Card className="w-[300px] md:w-[950px]">
+                  <CardHeader>
+                    <CardTitle>Create project</CardTitle>
+                    <CardDescription>
+                      Deploy your new project in one-click.
+                    </CardDescription>
+                  </CardHeader>
                   <CardContent>
-                    <Typography variant="h5" component="div">
-                      {card.linkName}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {card.linkURL}
-                    </Typography>
-                    <Button
-                      className="bg-blue-500 hover:text-blue-600"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => {
-                        const updatedCards: any = [...cards];
-                        updatedCards[index].editing = true;
-                        setCards(updatedCards);
-                      }}>
-                      Edit
-                    </Button>
-                    <Button
-                      className="bg-red-500 hover:text-red-600"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleDelete(index)}>
-                      Delete
-                    </Button>
+                    <form>
+                      <div className="grid w-full items-center gap-4">
+                        <div className="flex flex-col space-y-1.5">
+                          <Label htmlFor="name">Name</Label>
+                          <Input id="name" placeholder="Name of your project" />
+                        </div>
+                        <div className="flex flex-col space-y-1.5">
+                          <Label htmlFor="framework">Platform</Label>
+                          <Select>
+                            <SelectTrigger id="framework">
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                            <SelectContent position="popper">
+                              <SelectItem value="github">GitHub</SelectItem>
+                              <SelectItem value="linkedIn">
+                                LinkedIn
+                              </SelectItem>
+                              <SelectItem value="instagran">Instagram</SelectItem>
+                              <SelectItem value="x">X</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </form>
                   </CardContent>
+                  <CardFooter className="flex justify-between">
+                    <Button variant="outline">Cancel</Button>
+                    <Button>Save</Button>
+                  </CardFooter>
                 </Card>
               )}
             </div>
