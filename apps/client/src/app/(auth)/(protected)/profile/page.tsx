@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -19,30 +19,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Mobile } from "@/components";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/context/user/useUserCTX";
+import appwriteDB from "@/appwrite-service/appwriteDB";
 
 interface CardItem {
-  linkName: string;
+  // linkName: string;
   linkURL: string;
   editing: boolean;
 }
 
 const Profile: React.FC = () => {
   const [cards, setCards] = useState<CardItem[]>([]);
-  const [platform, setPlatform] = useState<string>("");
+  const [platform, setPlatform] = useState([]);
+  const [uid, setUid] = useState<string>("");
+
+  const user = useUser();
 
   const addCard = () => {
     const newCard: CardItem = {
-      linkName: "",
+      // linkName: "",
       linkURL: "",
       editing: true,
     };
     setCards([...cards, newCard]);
-  };
-
-  const handleLinkNameChange = (index: number, event: any) => {
-    const updatedCards: any[any] = [...cards];
-    updatedCards[index].linkName = event.target.value;
-    setCards(updatedCards);
   };
 
   const handleLinkURLChange = (index: number, event: any) => {
@@ -55,14 +54,51 @@ const Profile: React.FC = () => {
     const updatedCards: any = [...cards];
     updatedCards[index].editing = false;
     setCards(updatedCards);
-
-    console.log(`Saved changes for card ${index + 1}:`, updatedCards[index]);
   };
 
   const handleDelete = (index: number) => {
     const updatedCards = cards.filter((_, i) => i !== index);
     setCards(updatedCards);
   };
+
+  const pushToDB = () => {
+    const dbLinkUrl: string[] = [];
+    cards.map((card) => {
+      dbLinkUrl.push(card.linkURL);
+    });
+    appwriteDB
+      .create({
+        uid: "Test1",
+        platform: platform,
+        url: dbLinkUrl,
+        name: "Aditya Singh",
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
+  useEffect(() => {
+    user.getUser().then((res: any) => {
+      setUid(res.uid);
+    });
+
+    // appwriteDB
+    //   .create({
+    //     uid: "123",
+    //     platform: ["X", "Y", "Z", "asd"],
+    //     url: [
+    //       "https://x.com/",
+    //       "https://y.com/",
+    //       "https://z.com/",
+    //       "https://asd.com/",
+    //     ],
+    //     name: "Aditya Singh",
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //   });
+  }, []);
 
   return (
     <div className="flex justify-center p-4">
@@ -96,9 +132,13 @@ const Profile: React.FC = () => {
                         <div className="flex flex-col space-y-1.5">
                           <Label htmlFor="platform">Platform</Label>
                           <Select
-                            value={platform}
+                            value={platform[index]}
                             onValueChange={(e) => {
-                              setPlatform(e.valueOf());
+                              setPlatform((prev) => {
+                                const updatedCards: any = [...prev];
+                                updatedCards[index] = e.valueOf();
+                                return updatedCards;
+                              });
                             }}>
                             <SelectTrigger id="platform">
                               <SelectValue placeholder="Select" />
@@ -135,7 +175,7 @@ const Profile: React.FC = () => {
                           <Label htmlFor="name">{card.linkURL}</Label>
                         </div>
                         <div className="flex flex-col space-y-1.5">
-                          <Label htmlFor="name">{platform}</Label>
+                          <Label htmlFor="name">{platform[index]}</Label>
                         </div>
                       </div>
                     </form>
@@ -162,8 +202,9 @@ const Profile: React.FC = () => {
         </div>
       </div>
       <div className="flex justify-center w-[30%]">
-        <Mobile cards={cards} />
+        <Mobile cards={cards} platform={platform} />
       </div>
+      <button onClick={pushToDB}>ADDD</button>
     </div>
   );
 };

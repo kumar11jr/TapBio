@@ -30,12 +30,12 @@ class AppwriteDatabase {
     name
   }: {
     uid: string;
-    platform: string;
-    url: string;
+    platform: string[];
+    url: string[];
     name: string;
   }) {
     try {
-      database.createDocument("testdb", "testcollection", ID.unique(), {
+      database.createDocument("testdb", "testcollection", uid, {
         uid,
         platform,
         url,
