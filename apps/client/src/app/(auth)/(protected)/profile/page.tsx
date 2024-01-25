@@ -77,7 +77,7 @@ const Profile: React.FC = () => {
           {cards.map((card, index) => (
             <div key={index} className="my-4">
               {card.editing ? (
-                <Card id={index} className="w-[300px] md:w-[950px]">
+                <Card id={index.toString()} className="w-[300px] md:w-[950px]">
                   <CardHeader></CardHeader>
                   <CardContent>
                     <form>
@@ -126,7 +126,7 @@ const Profile: React.FC = () => {
                   </CardFooter>
                 </Card>
               ) : (
-                <Card id={index} className="w-[300px] md:w-[950px]">
+                <Card id={index.toString()} className="w-[300px] md:w-[950px]">
                   <CardHeader></CardHeader>
                   <CardContent>
                     <form>

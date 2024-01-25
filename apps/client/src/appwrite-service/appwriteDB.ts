@@ -27,16 +27,19 @@ class AppwriteDatabase {
     uid,
     platform,
     url,
+    name
   }: {
     uid: string;
     platform: string;
     url: string;
+    name: string;
   }) {
     try {
       database.createDocument("testdb", "testcollection", ID.unique(), {
         uid,
         platform,
         url,
+        name
       });
     } catch (error) {
       throw error;
