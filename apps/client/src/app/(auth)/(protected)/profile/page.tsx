@@ -28,6 +28,7 @@ interface CardItem {
 
 const Profile: React.FC = () => {
   const [cards, setCards] = useState<CardItem[]>([]);
+  const [platform, setPlatform] = useState<string>("");
 
   const addCard = () => {
     const newCard: CardItem = {
@@ -76,68 +77,39 @@ const Profile: React.FC = () => {
           {cards.map((card, index) => (
             <div key={index} className="my-4">
               {card.editing ? (
-                <Card className="w-[300px] md:w-[950px]">
-                <CardHeader>
-                </CardHeader>
-                <CardContent>
-                  <form>
-                    <div className="grid w-full items-center gap-4">
-                      <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="name">Add Link</Label>
-                        <Input id="name" placeholder="Paste Link here" />
-                      </div>
-                      <div className="flex flex-col space-y-1.5">
-                        <Label htmlFor="framework">Platform</Label>
-                        <Select>
-                          <SelectTrigger id="framework">
-                            <SelectValue placeholder="Select" />
-                          </SelectTrigger>
-                          <SelectContent position="popper">
-                            <SelectItem value="github">GitHub</SelectItem>
-                            <SelectItem value="linkedIn">
-                              LinkedIn
-                            </SelectItem>
-                            <SelectItem value="instagran">Instagram</SelectItem>
-                            <SelectItem value="x">X</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                  </form>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button variant="outline">Cancel</Button>
-                  <Button>Save</Button>
-                </CardFooter>
-              </Card>
-              ) : (
-                <Card className="w-[300px] md:w-[950px]">
-                  <CardHeader>
-                    <CardTitle>Create project</CardTitle>
-                    <CardDescription>
-                      Deploy your new project in one-click.
-                    </CardDescription>
-                  </CardHeader>
+                <Card id={index} className="w-[300px] md:w-[950px]">
+                  <CardHeader></CardHeader>
                   <CardContent>
                     <form>
                       <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
-                          <Label htmlFor="name">Name</Label>
-                          <Input id="name" placeholder="Name of your project" />
+                          <Label htmlFor="name">Add Link</Label>
+                          <Input
+                            id="name"
+                            value={card.linkURL}
+                            onChange={(event) =>
+                              handleLinkURLChange(index, event)
+                            }
+                            placeholder="Paste Link here"
+                          />
                         </div>
                         <div className="flex flex-col space-y-1.5">
-                          <Label htmlFor="framework">Platform</Label>
-                          <Select>
-                            <SelectTrigger id="framework">
+                          <Label htmlFor="platform">Platform</Label>
+                          <Select
+                            value={platform}
+                            onValueChange={(e) => {
+                              setPlatform(e.valueOf());
+                            }}>
+                            <SelectTrigger id="platform">
                               <SelectValue placeholder="Select" />
                             </SelectTrigger>
                             <SelectContent position="popper">
-                              <SelectItem value="github">GitHub</SelectItem>
-                              <SelectItem value="linkedIn">
-                                LinkedIn
+                              <SelectItem value="GitHub">GitHub</SelectItem>
+                              <SelectItem value="LinkedIn">LinkedIn</SelectItem>
+                              <SelectItem value="Instagram">
+                                Instagram
                               </SelectItem>
-                              <SelectItem value="instagran">Instagram</SelectItem>
-                              <SelectItem value="x">X</SelectItem>
+                              <SelectItem value="X">X</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
@@ -145,8 +117,43 @@ const Profile: React.FC = () => {
                     </form>
                   </CardContent>
                   <CardFooter className="flex justify-between">
-                    <Button variant="outline">Cancel</Button>
-                    <Button>Save</Button>
+                    <Button
+                      onClick={() => handleDelete(index)}
+                      variant="outline">
+                      Cancel
+                    </Button>
+                    <Button onClick={() => handleSave(index)}>Save</Button>
+                  </CardFooter>
+                </Card>
+              ) : (
+                <Card id={index} className="w-[300px] md:w-[950px]">
+                  <CardHeader></CardHeader>
+                  <CardContent>
+                    <form>
+                      <div className="grid w-full items-center gap-4">
+                        <div className="flex flex-col space-y-1.5">
+                          <Label htmlFor="name">{card.linkURL}</Label>
+                        </div>
+                        <div className="flex flex-col space-y-1.5">
+                          <Label htmlFor="name">{platform}</Label>
+                        </div>
+                      </div>
+                    </form>
+                  </CardContent>
+                  <CardFooter className="flex justify-between">
+                    <Button
+                      onClick={() => handleDelete(index)}
+                      variant="outline">
+                      Delete
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        const updatedCards: any = [...cards];
+                        updatedCards[index].editing = true;
+                        setCards(updatedCards);
+                      }}>
+                      Edit
+                    </Button>
                   </CardFooter>
                 </Card>
               )}
