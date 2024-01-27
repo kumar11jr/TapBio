@@ -101,7 +101,7 @@ const Profile: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex justify-center p-4">
+    <div className="h-[100vh] flex justify-center p-4">
       <div className="w-[70%]">
         <Button
           className="bg-blue-500 hover:text-blue-600"
@@ -109,6 +109,7 @@ const Profile: React.FC = () => {
           onClick={addCard}>
           Add link
         </Button>
+        <div className="max-h-[90vh] overflow-y-auto scrollbar-hidden">
         <div className="mt-4">
           {cards.map((card, index) => (
             <div key={index} className="my-4">
@@ -199,6 +200,7 @@ const Profile: React.FC = () => {
               )}
             </div>
           ))}
+          </div>
         </div>
       </div>
       <div className="flex justify-center w-[30%]">
