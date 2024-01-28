@@ -20,6 +20,7 @@ import { Label } from "@/components/ui/label";
 import { Mobile } from "@/components";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/user/useUserCTX";
+import { useToast } from "@/components/ui/use-toast";
 import appwriteDB from "@/appwrite-service/appwriteDB";
 
 interface CardItem {
@@ -34,6 +35,7 @@ const Profile: React.FC = () => {
   const [uid, setUid] = useState<string>("");
 
   const user = useUser();
+  const { toast } = useToast();
 
   const addCard = () => {
     const newCard: CardItem = {
@@ -68,7 +70,7 @@ const Profile: React.FC = () => {
     });
     appwriteDB
       .create({
-        uid: "Test1",
+        uid: "Test7",
         platform: platform,
         url: dbLinkUrl,
         name: "Aditya Singh",
