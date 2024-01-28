@@ -27,7 +27,7 @@ class AppwriteDatabase {
     uid,
     platform,
     url,
-    name
+    name,
   }: {
     uid: string;
     platform: string[];
@@ -35,12 +35,19 @@ class AppwriteDatabase {
     name: string;
   }) {
     try {
-      database.createDocument("testdb", "testcollection", uid, {
-        uid,
-        platform,
-        url,
-        name
-      });
+      database
+        .createDocument("testdb", "testcollection", uid, {
+          uid,
+          platform,
+          url,
+          name,
+        })
+        .then((res) => {
+          if (res.$id) return res;
+        })
+        .catch((err) => {
+          return err;
+        });
     } catch (error) {
       throw error;
     }
