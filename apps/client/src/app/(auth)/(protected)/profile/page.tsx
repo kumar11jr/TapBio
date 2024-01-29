@@ -70,7 +70,7 @@ const Profile: React.FC = () => {
     });
     appwriteDB
       .create({
-        uid: "Test7",
+        uid: "Test1",
         platform: platform,
         url: dbLinkUrl,
         name: "Aditya Singh",
