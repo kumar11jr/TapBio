@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import "./Button.css";
 
 export interface IProps {
   linkName: string | undefined;
@@ -7,15 +8,14 @@ export interface IProps {
 
 const ButtonCard: React.FC<IProps> = (props) => {
   const handleClick = () => {
-    window.open(props.linkURL, '_blank');
+    window.open(props.linkURL, "_blank");
   };
 
   return (
     <>
       <div
-        className='bg-white shadow-3 text-black py-5 rounded-3xl'
-        onClick={handleClick} 
-        style={{ cursor: 'pointer' }}>
+        className="btnComp bg-white shadow-3 text-black py-5 rounded-xl hover:cursor-pointer"
+        onClick={handleClick}>
         {props.linkName}
       </div>
     </>

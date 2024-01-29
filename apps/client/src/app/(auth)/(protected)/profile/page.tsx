@@ -106,10 +106,13 @@ const Profile: React.FC = () => {
     <div className="h-[100vh] flex justify-center p-4">
       <div className="w-[70%]">
         <Button
-          className="bg-blue-500 hover:text-blue-600"
+          className="bg-blue-500 hover:text-blue-600 mx-2"
           // variant="contained"
           onClick={addCard}>
           Add link
+        </Button>
+        <Button className="mx-2" onClick={pushToDB} variant={"outline"}>
+          Save
         </Button>
         <div className="max-h-[90vh] overflow-y-auto scrollbar-hidden">
         <div className="mt-4">
@@ -208,7 +211,6 @@ const Profile: React.FC = () => {
       <div className="flex justify-center w-[30%]">
         <Mobile cards={cards} platform={platform} />
       </div>
-      <button onClick={pushToDB}>ADDD</button>
     </div>
   );
 };
