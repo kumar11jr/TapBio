@@ -25,7 +25,7 @@ const Mobile: React.FC<MobileProps> = ({ cards, platform, user }) => {
         {/* cards */}
         <div className="flex flex-col items-center pt-10">
           {cards.map((card, index) => (
-            <div key={index} className="w-[80%] text-white">
+            <div key={index} className="w-[80%] text-white py-2">
               <ButtonCard linkName={platform[index]} linkURL={card.linkURL} />
             </div>
           ))}

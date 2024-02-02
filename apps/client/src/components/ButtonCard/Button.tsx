@@ -6,17 +6,17 @@ export interface IProps {
   linkURL: string;
 }
 
-const ButtonCard: React.FC<IProps> = (props) => {
+const ButtonCard: React.FC<IProps> = ({ linkName, linkURL }) => {
   const handleClick = () => {
-    window.open(props.linkURL, "_blank");
+    window.open(linkURL, "_blank");
   };
 
   return (
     <>
       <div
-        className="btnComp bg-white shadow-3 text-black py-5 rounded-xl hover:cursor-pointer"
+        className="btnComp bg-white shadow-3 text-black py-3 rounded-xl hover:cursor-pointer"
         onClick={handleClick}>
-        {props.linkName}
+        {linkName}
       </div>
     </>
   );
