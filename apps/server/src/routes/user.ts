@@ -1,7 +1,6 @@
-import express, { Router, Request, Response } from "express";
+import { Router, Request, Response } from "express";
 const router = Router();
-import authMiddleWare from "../middleware";
-import zod, { string } from "zod";
+import zod from "zod";
 import { User } from "../db/db";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config";

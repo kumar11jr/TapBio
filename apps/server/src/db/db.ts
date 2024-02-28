@@ -30,6 +30,19 @@ const userSchema = new Schema({
   },
 });
 
-const User = model("User", userSchema);
+const urlDataSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  links: {
+    type: Array,
+    required: true,
+  },
+});
 
-export { User };
+const User = model("User", userSchema);
+const UrlData = model("UrlData", urlDataSchema);
+
+export { User, UrlData };
