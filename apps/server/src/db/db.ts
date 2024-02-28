@@ -31,15 +31,13 @@ const userSchema = new Schema({
 });
 
 const urlDataSchema = new Schema({
+  _id: Schema.Types.ObjectId,
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  links: {
-    type: Array,
-    required: true,
-  },
+  links: [{ url: String }],
 });
 
 const User = model("User", userSchema);

@@ -11,14 +11,17 @@ interface Req extends Request {
 // @ts-ignore
 router.post("/addurl", authMiddleWare, async (req: Req, res: Response) => {
   const { links } = req.body;
-  const userId = req.userId;
-  const user = await User.findOne({ userId: req.userId });
-  res.json({ user });
+  const acc = await UrlData.findOne({ userId: req.userId });
+  if (!acc) {
+    res.status(403).json({
+      msg: "Invalid User",
+    });
+  }
+  await UrlData.updateOne(
+    { userId: req.userId },
+    { $push: { links: { url: "Hello" } } }
+  );
 
-  const send = await UrlData.create({
-    userId,
-    links,
-  });
   res.status(200).json({ msg: "Okiee" });
 });
 

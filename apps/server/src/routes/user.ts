@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 const router = Router();
 import zod from "zod";
-import { User } from "../db/db";
+import { UrlData, User } from "../db/db";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config";
 
@@ -42,6 +42,12 @@ router.post("/signup", async (req: Request, res: Response) => {
   });
   const userId = user._id;
   const token = jwt.sign({ userId }, JWT_SECRET);
+
+  await UrlData.create({
+    _id: userId,
+    userId,
+    links: { url: "" },
+  });
 
   res.status(200).json({
     msg: "User created Successfully",
