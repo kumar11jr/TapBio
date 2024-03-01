@@ -15,9 +15,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import appwriteService from "@/appwrite-service/appwrite";
+import useAuth from "@/context/auth/useAuth";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/user/useUserCTX";
+import axios from "axios";
 
 function Copyright(props: any) {
   return (
@@ -42,23 +43,39 @@ function Copyright(props: any) {
 export default function SignUp() {
   const router = useRouter();
   const user = useUser();
+  const auth = useAuth();
 
   const [username, setUsername] = React.useState<string>("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const dataDestruct: { email: string; password: string } = {
+    const dataDestruct: { email: string; password: string; name: string } = {
       email: String(data.get("email")),
       password: String(data.get("password")),
+      name: String(data.get("name")),
     };
     if (dataDestruct.email && dataDestruct.password.length >= 8) {
       try {
-        appwriteService.createAccount({
-          email: dataDestruct.email,
-          password: dataDestruct.password,
-          username,
-        });
+        axios
+          .post("http://localhost:8080/api/v1/user/signup", {
+            email: dataDestruct.email,
+            username,
+            password: dataDestruct.password,
+            name: dataDestruct.name,
+          })
+          .then(async (res: any) => {
+            if (res.status == 200) {
+              localStorage.setItem("tapbio-token", res.data.token);
+              auth.setAuthStatus(true);
+              router.push("/profile");
+            }
+          });
+        // appwriteService.createAccount({
+        //   email: dataDestruct.email,
+        //   password: dataDestruct.password,
+        //   username,
+        // });
       } catch (error) {
         throw error;
       }
@@ -72,6 +89,7 @@ export default function SignUp() {
   };
 
   useEffect(() => {
+    if (auth.authStatus) router.push("/profile");
     user.getUser().then((res: any) => {
       setUsername(res.uid);
     });
@@ -107,6 +125,18 @@ export default function SignUp() {
             label="Username"
             name="username"
             autoComplete="username"
+            onKeyDown={handleEnterPress}
+          />
+          <TextField
+            margin="normal"
+            color="secondary"
+            variant="standard"
+            required
+            fullWidth
+            name="name"
+            label="Name"
+            id="name"
+            autoComplete="Name"
             onKeyDown={handleEnterPress}
           />
           <TextField

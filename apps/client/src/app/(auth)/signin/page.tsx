@@ -1,6 +1,5 @@
 "use client";
-import * as React from "react";
-
+import { FormEvent, useEffect } from "react";
 // Material UI Imports
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -13,8 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 
-import appwriteService from "@/appwrite-service/appwrite";
+import useAuth from "@/context/auth/useAuth";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/user/useUserCTX";
 
@@ -41,8 +41,9 @@ const defaultTheme = createTheme();
 export default function SignIn() {
   const router = useRouter();
   const user = useUser();
+  const auth = useAuth();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const dataDestruct: { email: string; password: string } = {
@@ -51,19 +52,32 @@ export default function SignIn() {
     };
     if (dataDestruct.email && dataDestruct.password.length >= 8) {
       try {
-        appwriteService
-          .login({
+        axios
+          .post("http://localhost:8080/api/v1/user/signin", {
             email: dataDestruct.email,
             password: dataDestruct.password,
           })
-          .then((res) => {
-            const data = {
-              uid: res.userId,
-              platform: "",
-              url: "",
-            };
-            user.saveUser(data);
+          .then(async (res: any) => {
+            if (res.status == 200) {
+              localStorage.setItem("tapbio-token", res.data.token);
+              auth.setAuthStatus(true);
+              router.push("/profile");
+            }
           });
+
+        // appwriteService
+        //   .login({
+        //     email: dataDestruct.email,
+        //     password: dataDestruct.password,
+        //   })
+        //   .then((res) => {
+        //     const data = {
+        //       uid: res.userId,
+        //       platform: "",
+        //       url: "",
+        //     };
+        //     user.saveUser(data);
+        //   });
       } catch (error) {
         throw error;
       }
@@ -75,6 +89,12 @@ export default function SignIn() {
       document.getElementById("submitSignIn")?.click();
     }
   };
+
+  useEffect(() => {
+    if (auth.authStatus) {
+      router.push("/profile");
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={defaultTheme}>

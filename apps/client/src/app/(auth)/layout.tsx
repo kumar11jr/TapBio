@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import ChildLayout from "./childLayout";
 
 export const metadata: Metadata = {
   title: "Getting started",
@@ -13,11 +11,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  return (
-    <html lang="en">
-      <body style={{ backgroundColor: "#dedede", height:"100vh" }} className={inter.className}>
-        {children}
-      </body>
-    </html>
-  );
+  return <ChildLayout>{children}</ChildLayout>;
 }

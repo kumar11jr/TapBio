@@ -1,8 +1,5 @@
-import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import ChildLayout from "./childLayout";
 
 export const metadata: Metadata = {
   title: "Profile",
@@ -14,14 +11,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  return (
-    <html lang="en">
-      <body
-        style={{ backgroundColor: "#dedede", height: "100vh" }}
-        className={inter.className}>
-        <main>{children}</main>
-        <Toaster />
-      </body>
-    </html>
-  );
+  return <ChildLayout>{children}</ChildLayout>;
 }

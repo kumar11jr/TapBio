@@ -62,16 +62,15 @@ router.post("/signin", async (req: Request, res: Response) => {
       msg: "Invalid details",
     });
   }
-  const { email, username, password } = req.body;
+  const { email, password } = req.body;
 
   const user = await User.findOne({
     email,
-    username,
     password,
   });
   if (user) {
     const token = jwt.sign({ userId: user._id }, JWT_SECRET);
-    res.json({
+    res.status(200).json({
       token: token,
     });
     return;

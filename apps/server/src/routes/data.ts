@@ -17,12 +17,22 @@ router.post("/addurl", authMiddleWare, async (req: Req, res: Response) => {
       msg: "Invalid User",
     });
   }
-  await UrlData.updateOne(
+  
+  //Send post req to http://localhost:8080/api/v1/data/addurl
+  // Don't forget to add auth bearer token (Login(http://localhost:8080/api/v1/data/signin) first to get bearer token)
+
+  const update = await UrlData.updateOne(
     { userId: req.userId },
-    { $push: { links: { url: "Hello" } } }
+    { $push: { links: { url: "PrabhatTest" } } }
   );
 
-  res.status(200).json({ msg: "Okiee" });
+  if (!update) {
+    res.status(403).json({
+      msg: "There was an error while updating the data",
+    });
+  }
+
+  res.status(200).json({ msg: "Data uploaded successfully" });
 });
 
 export { router };
