@@ -1,0 +1,32 @@
+"use client";
+import { Inter } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import useAuth from "@/context/auth/useAuth";
+
+const inter = Inter({ subsets: ["latin"] });
+
+function ChildLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const auth = useAuth();
+
+  useEffect(() => {
+    if (!auth.authStatus) {
+      router.replace("/");
+    }
+  }, []);
+
+  return (
+    <html lang="en">
+      <body
+        style={{ backgroundColor: "#dedede", height: "100vh" }}
+        className={inter.className}>
+        <main>{children}</main>
+        <Toaster />
+      </body>
+    </html>
+  );
+}
+
+export default ChildLayout;
