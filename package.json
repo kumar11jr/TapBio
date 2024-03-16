@@ -1,5 +1,5 @@
 {
-  "name": "TapBio",
+  "name": "tapbio",
   "private": true,
   "scripts": {
     "build": "turbo build",

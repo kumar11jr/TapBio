@@ -16,7 +16,6 @@ import axios from "axios";
 
 import useAuth from "@/context/auth/useAuth";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/context/user/useUserCTX";
 
 function Copyright(props: any) {
   return (
@@ -40,7 +39,6 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const router = useRouter();
-  const user = useUser();
   const auth = useAuth();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -64,20 +62,6 @@ export default function SignIn() {
               router.push("/profile");
             }
           });
-
-        // appwriteService
-        //   .login({
-        //     email: dataDestruct.email,
-        //     password: dataDestruct.password,
-        //   })
-        //   .then((res) => {
-        //     const data = {
-        //       uid: res.userId,
-        //       platform: "",
-        //       url: "",
-        //     };
-        //     user.saveUser(data);
-        //   });
       } catch (error) {
         throw error;
       }
@@ -92,7 +76,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (auth.authStatus) {
-      router.push("/profile");
+      router.push(`/profile`);
     }
   }, []);
 
