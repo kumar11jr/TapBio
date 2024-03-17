@@ -16,8 +16,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import useAuth from "@/context/auth/useAuth";
-import { useRouter } from "next/navigation";
-import { useUser } from "@/context/user/useUserCTX";
+import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
 function Copyright(props: any) {
@@ -42,8 +41,8 @@ function Copyright(props: any) {
 
 export default function SignUp() {
   const router = useRouter();
-  const user = useUser();
   const auth = useAuth();
+  const params = useSearchParams();
 
   const [username, setUsername] = React.useState<string>("");
 
@@ -71,11 +70,6 @@ export default function SignUp() {
               router.push("/profile");
             }
           });
-        // appwriteService.createAccount({
-        //   email: dataDestruct.email,
-        //   password: dataDestruct.password,
-        //   username,
-        // });
       } catch (error) {
         throw error;
       }
@@ -89,10 +83,8 @@ export default function SignUp() {
   };
 
   useEffect(() => {
+    setUsername(String(params.get("username")));
     if (auth.authStatus) router.push("/profile");
-    user.getUser().then((res: any) => {
-      setUsername(res.uid);
-    });
   }, []);
 
   return (

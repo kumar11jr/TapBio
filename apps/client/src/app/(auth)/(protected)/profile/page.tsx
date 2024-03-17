@@ -3,10 +3,8 @@ import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import {
   Select,
@@ -19,12 +17,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Mobile } from "@/components";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@/context/user/useUserCTX";
 import { useToast } from "@/components/ui/use-toast";
-import appwriteDB from "@/appwrite-service/appwriteDB";
+import axios from "axios";
 
 interface CardItem {
-  // linkName: string;
   linkURL: string;
   editing: boolean;
 }
@@ -32,23 +28,22 @@ interface CardItem {
 const Profile: React.FC = () => {
   const [cards, setCards] = useState<CardItem[]>([]);
   const [platform, setPlatform] = useState([]);
-  const [uid, setUid] = useState<{ uid: string; name: string }>({
-    uid: "",
-    name: "",
-  });
-
-  const user = useUser();
+  const [userData, setUserData] = useState<{
+    username: string;
+    name: string;
+    email: string;
+  }>();
+  const [authToken, setAuthToken] = useState<string | null>();
   const { toast } = useToast();
 
   const addCard = () => {
     const newCard: CardItem = {
-      // linkName: "",
       linkURL: "",
       editing: true,
     };
     setCards([...cards, newCard]);
   };
-
+// Managing Inputs
   const handleLinkURLChange = (index: number, event: any) => {
     const updatedCards: any = [...cards];
     updatedCards[index].linkURL = event.target.value;
@@ -66,43 +61,42 @@ const Profile: React.FC = () => {
     setCards(updatedCards);
   };
 
+// Pushing To DB
   const pushToDB = () => {
     const dbLinkUrl: string[] = [];
     cards.map((card) => {
       dbLinkUrl.push(card.linkURL);
     });
-    appwriteDB
-      .create({
-        uid: "Test1",
-        platform: platform,
-        url: dbLinkUrl,
-        name: "Aditya Singh",
-      })
+    const headers = {
+      headers: {
+        "tapbio-token": authToken,
+      },
+    };
+    axios
+      .post(
+        "http://localhost:8080/api/v1/data/addurl",
+        { links: dbLinkUrl },
+        headers
+      )
       .then((res) => {
         console.log(res);
       });
   };
 
-  useEffect(() => {
-    user.getUser().then((res: any) => {
-      setUid({ uid: res.uid, name: res.name });
+// Getting User Info from Me route
+  const getUserInfo = (token: string) => {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    axios.get("http://localhost:8080/api/v1/user/me", config).then((res) => {
+      setUserData(res.data);
     });
+  };
 
-    // appwriteDB
-    //   .create({
-    //     uid: "123",
-    //     platform: ["X", "Y", "Z", "asd"],
-    //     url: [
-    //       "https://x.com/",
-    //       "https://y.com/",
-    //       "https://z.com/",
-    //       "https://asd.com/",
-    //     ],
-    //     name: "Aditya Singh",
-    //   })
-    //   .then((res) => {
-    //     console.log(res);
-    //   });
+  useEffect(() => {
+    const lc = localStorage.getItem("tapbio-token");
+    setAuthToken(lc);
+    getUserInfo(lc!);
   }, []);
 
   return (
@@ -218,7 +212,7 @@ const Profile: React.FC = () => {
         </div>
       </div>
       <div className="flex justify-center w-[30%]">
-        <Mobile cards={cards} platform={platform} user={uid.name} />
+        <Mobile cards={cards} platform={platform} user={userData?.username!} />
       </div>
     </div>
   );

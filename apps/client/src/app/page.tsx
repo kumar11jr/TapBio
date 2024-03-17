@@ -17,14 +17,7 @@ export default function Page(): JSX.Element {
 
   const generateTapBio = () => {
     if (username.trim() != "") {
-      user
-        .saveUser({
-          uid: username,
-          name: ""
-        })
-        .then(() => {
-          router.push("/signup");
-        });
+      router.push(`/signup?username=${username}`);
     }
   };
 
