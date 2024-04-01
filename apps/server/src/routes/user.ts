@@ -29,32 +29,36 @@ router.post("/signup", async (req: Request, res: Response) => {
     });
   }
 
-  const existingUser = await User.findOne({ username });
-  if (existingUser) {
-    return res.status(403).json({
-      msg: "user already exists/username already taken",
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return res.status(403).json({
+        msg: "user already exists/username already taken",
+      });
+    }
+
+    const user = await User.create({
+      email,
+      username,
+      password,
+      name,
     });
+    const userId = user._id;
+    const token = jwt.sign({ userId }, JWT_SECRET);
+
+    await UrlData.create({
+      _id: userId,
+      userId,
+      links: { url: "" },
+    });
+
+    res.status(200).json({
+      msg: "User created Successfully",
+      token,
+    });
+  } catch (error) {
+    console.log(error);
   }
-
-  const user = await User.create({
-    email,
-    username,
-    password,
-    name,
-  });
-  const userId = user._id;
-  const token = jwt.sign({ userId }, JWT_SECRET);
-
-  await UrlData.create({
-    _id: userId,
-    userId,
-    links: { url: "" },
-  });
-
-  res.status(200).json({
-    msg: "User created Successfully",
-    token,
-  });
 });
 
 router.post("/signin", async (req: Request, res: Response) => {
@@ -81,7 +85,7 @@ router.post("/signin", async (req: Request, res: Response) => {
     return;
   }
 
-  res.status(411).json({
+  return res.status(411).json({
     msg: "Error while logging in",
   });
 });
@@ -96,6 +100,17 @@ router.get("/me", authMiddleWare, async (req: Req, res: Response) => {
     email: user?.email,
   };
   res.status(200).json(data);
+});
+
+router.post("/username", async (req: Request, res: Response) => {
+  const { username } = req.body;
+
+  const isUserPresent = await User.findOne({ username });
+  if (isUserPresent) {
+    return res.status(411).json({ msg: "User already Exists" });
+  }
+
+  res.status(200).json({ msg: "Good to go" });
 });
 
 export { router };

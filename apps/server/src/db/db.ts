@@ -37,7 +37,7 @@ const urlDataSchema = new Schema({
     ref: "User",
     required: true,
   },
-  links: [{ url: String }],
+  links:  [{}],
 });
 
 const User = model("User", userSchema);
