@@ -2,12 +2,11 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useUser } from "@/context/user/useUserCTX";
 import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 export default function Page(): JSX.Element {
-  const user = useUser();
   const [username, setUsername] = useState<string>("");
   const router = useRouter();
 
@@ -17,7 +16,15 @@ export default function Page(): JSX.Element {
 
   const generateTapBio = () => {
     if (username.trim() != "") {
-      router.push(`/signup?username=${username}`);
+      axios
+        .post("http://localhost:8080/api/v1/user/username", {
+          username,
+        })
+        .then((res: any) => {
+          if (res.status == 200) {
+            router.push(`/signup?username=${username}`);
+          }
+        });
     }
   };
 

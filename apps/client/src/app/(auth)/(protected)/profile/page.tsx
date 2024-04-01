@@ -23,6 +23,7 @@ import axios from "axios";
 interface CardItem {
   linkURL: string;
   editing: boolean;
+  platform: string;
 }
 
 const Profile: React.FC = () => {
@@ -40,13 +41,20 @@ const Profile: React.FC = () => {
     const newCard: CardItem = {
       linkURL: "",
       editing: true,
+      platform: "",
     };
     setCards([...cards, newCard]);
   };
-// Managing Inputs
+  // Managing Inputs
   const handleLinkURLChange = (index: number, event: any) => {
     const updatedCards: any = [...cards];
     updatedCards[index].linkURL = event.target.value;
+    setCards(updatedCards);
+  };
+
+  const handlePlatformChange = (index: number, event: any) => {
+    const updatedCards: any = [...cards];
+    updatedCards[index].platform = event.valueOf();
     setCards(updatedCards);
   };
 
@@ -61,15 +69,15 @@ const Profile: React.FC = () => {
     setCards(updatedCards);
   };
 
-// Pushing To DB
+  // Pushing To DB
   const pushToDB = () => {
-    const dbLinkUrl: string[] = [];
+    const dbLinkUrl: any[] = [];
     cards.map((card) => {
-      dbLinkUrl.push(card.linkURL);
+      dbLinkUrl.push({ link: card.linkURL, platform: card.platform });
     });
     const headers = {
       headers: {
-        "tapbio-token": authToken,
+        Authorization: `Bearer ${authToken}`,
       },
     };
     axios
@@ -83,7 +91,7 @@ const Profile: React.FC = () => {
       });
   };
 
-// Getting User Info from Me route
+  // Getting User Info from Me route
   const getUserInfo = (token: string) => {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
@@ -142,6 +150,7 @@ const Profile: React.FC = () => {
                                 setPlatform((prev) => {
                                   const updatedCards: any = [...prev];
                                   updatedCards[index] = e.valueOf();
+                                  handlePlatformChange(index, e);
                                   return updatedCards;
                                 });
                               }}>
@@ -212,7 +221,11 @@ const Profile: React.FC = () => {
         </div>
       </div>
       <div className="flex justify-center w-[30%]">
-        <Mobile cards={cards} platform={platform} user={userData?.username!} />
+        <Mobile
+          cards={cards}
+          platform={platform}
+          user={userData?.name! || userData?.username!}
+        />
       </div>
     </div>
   );

@@ -5,7 +5,12 @@ const router = Router();
 
 export interface Req extends Request {
   userId: string;
-  links?: [];
+  links?: ILinks[];
+}
+
+interface ILinks {
+  link: string;
+  platform: string;
 }
 
 //@ts-ignore
@@ -21,8 +26,12 @@ router.get("/geturl", authMiddleWare, async (req: Req, res: Response) => {
 
 // @ts-ignore
 router.post("/addurl", authMiddleWare, async (req: Req, res: Response) => {
-  // const links: [] = req.body.links;
-  const links: string[] = ["Hello", "Tjhis", "test"];
+  const { links } = req.body;
+  // console.log(links);
+  // const links: any[] = [
+  //   { link: "ajshdklaj", platform: "askdjasd" },
+  //   { link: "2ajshdklaj", platform: "2skdjasd" },
+  // ];
   const acc = await UrlData.findOne({ userId: req.userId });
   if (!acc) {
     res.status(403).json({
@@ -32,13 +41,11 @@ router.post("/addurl", authMiddleWare, async (req: Req, res: Response) => {
 
   //Send post req to http://localhost:8080/api/v1/data/addurl
   // Don't forget to add auth bearer token (Login(http://localhost:8080/api/v1/data/signin) first to get bearer token)
-  let update;
-  links.map(async (key, item) => {
-    update = await UrlData.updateOne(
-      { userId: req.userId },
-      { $push: { links: { url: item } } }
-    );
-  });
+
+  let update = await UrlData.updateOne(
+    { userId: req.userId },
+    { $push: { links: { url: links } } }
+  );
 
   if (!update) {
     res.status(403).json({
