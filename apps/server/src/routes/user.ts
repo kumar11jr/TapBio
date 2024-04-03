@@ -49,7 +49,7 @@ router.post("/signup", async (req: Request, res: Response) => {
     await UrlData.create({
       _id: userId,
       userId,
-      links: { url: "" },
+      links: { url: [] },
     });
 
     res.status(200).json({

@@ -9,10 +9,9 @@ const inter = Inter({ subsets: ["latin"] });
 
 function ChildLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const auth = useAuth();
-
   useEffect(() => {
-    if (!auth.authStatus) {
+    const isAuthToken = localStorage.getItem("tapbio-token");
+    if (!isAuthToken) {
       router.replace("/");
     }
   }, []);

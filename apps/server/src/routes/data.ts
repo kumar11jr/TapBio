@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import authMiddleWare from "../middleware";
-import { User, UrlData } from "../db/db";
+import { UrlData } from "../db/db";
 const router = Router();
 
 export interface Req extends Request {
@@ -16,20 +16,20 @@ interface ILinks {
 //@ts-ignore
 router.get("/geturl", authMiddleWare, async (req: Req, res: Response) => {
   const data = await UrlData.findOne({ userId: req.userId });
-
   if (!data) {
     res.status(403).json({ msg: "Error while Searching User" });
   }
-
   res.status(200).json({ msg: "Data fetched Successfully", data });
 });
+
+
 
 // @ts-ignore
 router.post("/addurl", authMiddleWare, async (req: Req, res: Response) => {
   const { links } = req.body;
-  // console.log(links);
+  // TEST DATA
   // const links: any[] = [
-  //   { link: "ajshdklaj", platform: "askdjasd" },
+  //   { link: "ajshdklaj", platform: "Aditya Singh" },
   //   { link: "2ajshdklaj", platform: "2skdjasd" },
   // ];
   const acc = await UrlData.findOne({ userId: req.userId });
@@ -44,7 +44,7 @@ router.post("/addurl", authMiddleWare, async (req: Req, res: Response) => {
 
   let update = await UrlData.updateOne(
     { userId: req.userId },
-    { $push: { links: { url: links } } }
+    { $set: { links: { url: links } } }
   );
 
   if (!update) {
