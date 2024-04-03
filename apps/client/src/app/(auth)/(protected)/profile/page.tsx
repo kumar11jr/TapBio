@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Card,
   CardContent,
@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Mobile } from "@/components";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 interface CardItem {
@@ -36,6 +37,7 @@ const Profile: React.FC = () => {
   }>();
   const [authToken, setAuthToken] = useState<string | null>();
   const { toast } = useToast();
+  const router = useRouter();
 
   const addCard = () => {
     const newCard: CardItem = {
@@ -92,14 +94,20 @@ const Profile: React.FC = () => {
   };
 
   // Getting User Info from Me route
-  const getUserInfo = (token: string) => {
+  
+  const getUserInfo = useCallback((token: string) => {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
     axios.get("http://localhost:8080/api/v1/user/me", config).then((res) => {
-      setUserData(res.data);
+      if (res.status === 200) {
+        setUserData(res.data);
+      } else {
+        localStorage.removeItem("tapbio-token");
+        router.push("/");
+      }
     });
-  };
+  }, []);
 
   useEffect(() => {
     const lc = localStorage.getItem("tapbio-token");

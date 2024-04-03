@@ -2,7 +2,7 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
@@ -28,6 +28,13 @@ export default function Page(): JSX.Element {
     }
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("tapbio-token");
+    if (token) {
+      router.push("/profile");
+    }
+  }, []);
+  
   const generateTapBioOnEnter = (e: any) => {
     if (e.key === "Enter") {
       generateTapBio();
