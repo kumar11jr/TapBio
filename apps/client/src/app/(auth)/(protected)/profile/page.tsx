@@ -34,6 +34,7 @@ const Profile: React.FC = () => {
     username: string;
     name: string;
     email: string;
+    savedUrls: [{}];
   }>();
   const [authToken, setAuthToken] = useState<string | null>();
   const { toast } = useToast();
@@ -93,8 +94,19 @@ const Profile: React.FC = () => {
       });
   };
 
+  const showCardsFromDB = async (data: []) => {
+    for (let i = 0; i < data.length/2; i++) {
+      await document.getElementById("addLink")?.click();
+    }
+    data.map((item: { link: string; platform: string }, key) => {
+      let updatedCards: any = [...cards];
+      updatedCards[key].linkURL = item.link;
+      updatedCards[key].platform = item.platform;
+      setCards(updatedCards);
+    });
+  };
+
   // Getting User Info from Me route
-  
   const getUserInfo = useCallback((token: string) => {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
@@ -102,6 +114,7 @@ const Profile: React.FC = () => {
     axios.get("http://localhost:8080/api/v1/user/me", config).then((res) => {
       if (res.status === 200) {
         setUserData(res.data);
+        showCardsFromDB(res.data?.savedUrls);
       } else {
         localStorage.removeItem("tapbio-token");
         router.push("/");
@@ -119,7 +132,8 @@ const Profile: React.FC = () => {
     <div className="h-[100vh] flex justify-center p-4">
       <div className="w-[70%]">
         <Button
-          className="bg-blue-500 hover:text-blue-600 mx-2"
+          id="addLink"
+          className="addLink bg-blue-500 hover:text-blue-600 mx-2"
           // variant="contained"
           onClick={addCard}>
           Add link
@@ -153,7 +167,7 @@ const Profile: React.FC = () => {
                           <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="platform">Platform</Label>
                             <Select
-                              value={platform[index]}
+                              value={platform[index] || card.platform}
                               onValueChange={(e) => {
                                 setPlatform((prev) => {
                                   const updatedCards: any = [...prev];

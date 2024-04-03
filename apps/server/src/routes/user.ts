@@ -94,10 +94,12 @@ router.post("/signin", async (req: Request, res: Response) => {
 router.get("/me", authMiddleWare, async (req: Req, res: Response) => {
   const uid = req.userId;
   const user = await User.findOne({ _id: uid });
+  const userData = await UrlData.findOne({_id: uid});
   const data = {
     name: user?.name,
     username: user?.username,
     email: user?.email,
+    savedUrls: userData?.links[0].url
   };
   res.status(200).json(data);
 });
