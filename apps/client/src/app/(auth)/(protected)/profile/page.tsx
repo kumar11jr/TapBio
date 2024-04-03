@@ -98,12 +98,12 @@ const Profile: React.FC = () => {
     for (let i = 0; i < data.length/2; i++) {
       await document.getElementById("addLink")?.click();
     }
-    data.map((item: { link: string; platform: string }, key) => {
-      let updatedCards: any = [...cards];
-      updatedCards[key].linkURL = item.link;
-      updatedCards[key].platform = item.platform;
-      setCards(updatedCards);
-    });
+    // data.map((item: { link: string; platform: string }, key) => {
+    //   let updatedCards: any = [...cards];
+    //   updatedCards[key].linkURL = item.link.toString();
+    //   updatedCards[key].platform = item.platform;
+    //   setCards(updatedCards);
+    // });
   };
 
   // Getting User Info from Me route
@@ -157,7 +157,7 @@ const Profile: React.FC = () => {
                             <Label htmlFor="name">Add Link</Label>
                             <Input
                               id="name"
-                              value={card.linkURL}
+                              value={card.linkURL || userData?.savedUrls[index]?.link}
                               onChange={(event) =>
                                 handleLinkURLChange(index, event)
                               }
@@ -167,7 +167,7 @@ const Profile: React.FC = () => {
                           <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="platform">Platform</Label>
                             <Select
-                              value={platform[index] || card.platform}
+                              value={platform[index] || userData?.savedUrls[index]?.platform}
                               onValueChange={(e) => {
                                 setPlatform((prev) => {
                                   const updatedCards: any = [...prev];
