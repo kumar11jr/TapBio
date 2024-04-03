@@ -49,11 +49,11 @@ const Profile: React.FC = () => {
     setCards([...cards, newCard]);
   };
   // Managing Inputs
-  const handleLinkURLChange = (index: number, event: any) => {
+  function handleLinkURLChange(index: number, event: any) {
     const updatedCards: any = [...cards];
     updatedCards[index].linkURL = event.target.value;
     setCards(updatedCards);
-  };
+  }
 
   const handlePlatformChange = (index: number, event: any) => {
     const updatedCards: any = [...cards];
@@ -95,15 +95,15 @@ const Profile: React.FC = () => {
   };
 
   const showCardsFromDB = async (data: []) => {
-    for (let i = 0; i < data.length/2; i++) {
+    for (let i = 0; i < data.length / 2; i++) {
       await document.getElementById("addLink")?.click();
     }
-    // data.map((item: { link: string; platform: string }, key) => {
-    //   let updatedCards: any = [...cards];
-    //   updatedCards[key].linkURL = item.link.toString();
-    //   updatedCards[key].platform = item.platform;
-    //   setCards(updatedCards);
-    // });
+    data.map(({ link, platform }: { link: string; platform: string }, key) => {
+      let updatedCards: any = [...cards];
+      updatedCards[key].linkURL = link;
+      updatedCards[key].platform = platform;
+      setCards(updatedCards);
+    });
   };
 
   // Getting User Info from Me route
@@ -157,7 +157,9 @@ const Profile: React.FC = () => {
                             <Label htmlFor="name">Add Link</Label>
                             <Input
                               id="name"
-                              value={card.linkURL || userData?.savedUrls[index]?.link}
+                              value={
+                                card.linkURL || userData?.savedUrls[index]?.link
+                              }
                               onChange={(event) =>
                                 handleLinkURLChange(index, event)
                               }
@@ -167,7 +169,10 @@ const Profile: React.FC = () => {
                           <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="platform">Platform</Label>
                             <Select
-                              value={platform[index] || userData?.savedUrls[index]?.platform}
+                              value={
+                                platform[index] ||
+                                userData?.savedUrls[index]?.platform
+                              }
                               onValueChange={(e) => {
                                 setPlatform((prev) => {
                                   const updatedCards: any = [...prev];
