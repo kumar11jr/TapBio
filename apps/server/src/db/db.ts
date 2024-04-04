@@ -1,6 +1,6 @@
 import { Schema, connect, model } from "mongoose";
 
-connect("mongodb+srv://kumarshahil828:Randi123@cluster0.ludo29d.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"); //replace with your mongoDb instance
+connect("url"); //replace with your mongoDb instance
 
 const userSchema = new Schema({
   email: {
