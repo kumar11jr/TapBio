@@ -94,17 +94,28 @@ const Profile: React.FC = () => {
       });
   };
 
-  const showCardsFromDB = async (data: []) => {
-    for (let i = 0; i < data.length / 2; i++) {
-      await document.getElementById("addLink")?.click();
-    }
-    data.map(({ link, platform }: { link: string; platform: string }, key) => {
-      let updatedCards: any = [...cards];
-      updatedCards[key].linkURL = link;
-      updatedCards[key].platform = platform;
-      setCards(updatedCards);
-    });
+  // const showCardsFromDB = async (data: []) => {
+  //   for (let i = 0; i < data.length / 2; i++) {
+  //     await document.getElementById("addLink")?.click();
+  //   }
+  //   data.map(({ link, platform }: { link: string; platform: string }, key) => {
+  //     let updatedCards: any = [...cards];
+  //     updatedCards[key].linkURL = link;
+  //     updatedCards[key].platform = platform;
+  //     setCards(updatedCards);
+  //   });
+  // };
+
+
+  const showCardsFromDB = (data: { link: string; platform: string }[]) => {
+    const updatedCards = data.map((item) => ({
+      linkURL: item.link,
+      editing: false,
+      platform: item.platform,
+    }));
+    setCards(updatedCards);
   };
+  
 
   // Getting User Info from Me route
   const getUserInfo = useCallback((token: string) => {
@@ -114,7 +125,10 @@ const Profile: React.FC = () => {
     axios.get("http://localhost:8080/api/v1/user/me", config).then((res) => {
       if (res.status === 200) {
         setUserData(res.data);
-        showCardsFromDB(res.data?.savedUrls);
+        const savedUrls = res.data?.savedUrls;
+      if (savedUrls) {
+        showCardsFromDB(savedUrls);
+      }
       } else {
         localStorage.removeItem("tapbio-token");
         router.push("/");
