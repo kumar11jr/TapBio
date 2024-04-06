@@ -34,7 +34,7 @@ const Profile: React.FC = () => {
     username: string;
     name: string;
     email: string;
-    savedUrls: [{}];
+    savedUrls: [{link: string; platform: string;}];
   }>();
   const [authToken, setAuthToken] = useState<string | null>();
   const { toast } = useToast();
@@ -188,12 +188,7 @@ const Profile: React.FC = () => {
                                 userData?.savedUrls[index]?.platform
                               }
                               onValueChange={(e) => {
-                                setPlatform((prev) => {
-                                  const updatedCards: any = [...prev];
-                                  updatedCards[index] = e.valueOf();
-                                  handlePlatformChange(index, e);
-                                  return updatedCards;
-                                });
+                                handlePlatformChange(index, e);
                               }}>
                               <SelectTrigger id="platform">
                                 <SelectValue placeholder="Select" />
@@ -234,7 +229,7 @@ const Profile: React.FC = () => {
                             <Label htmlFor="name">{card.linkURL}</Label>
                           </div>
                           <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="name">{platform[index]}</Label>
+                            <Label htmlFor="name">{card.platform}</Label>
                           </div>
                         </div>
                       </form>
@@ -264,7 +259,6 @@ const Profile: React.FC = () => {
       <div className="flex justify-center w-[30%]">
         <Mobile
           cards={cards}
-          platform={platform}
           user={userData?.name! || userData?.username!}
         />
       </div>
