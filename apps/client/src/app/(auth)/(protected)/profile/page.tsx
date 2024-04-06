@@ -34,7 +34,7 @@ const Profile: React.FC = () => {
     username: string;
     name: string;
     email: string;
-    savedUrls: [{}];
+    savedUrls: [{link: string; platform: string;}];
   }>();
   const [authToken, setAuthToken] = useState<string | null>();
   const { toast } = useToast();
@@ -94,17 +94,28 @@ const Profile: React.FC = () => {
       });
   };
 
-  const showCardsFromDB = async (data: []) => {
-    for (let i = 0; i < data.length / 2; i++) {
-      await document.getElementById("addLink")?.click();
-    }
-    data.map(({ link, platform }: { link: string; platform: string }, key) => {
-      let updatedCards: any = [...cards];
-      updatedCards[key].linkURL = link;
-      updatedCards[key].platform = platform;
-      setCards(updatedCards);
-    });
+  // const showCardsFromDB = async (data: []) => {
+  //   for (let i = 0; i < data.length / 2; i++) {
+  //     await document.getElementById("addLink")?.click();
+  //   }
+  //   data.map(({ link, platform }: { link: string; platform: string }, key) => {
+  //     let updatedCards: any = [...cards];
+  //     updatedCards[key].linkURL = link;
+  //     updatedCards[key].platform = platform;
+  //     setCards(updatedCards);
+  //   });
+  // };
+
+
+  const showCardsFromDB = (data: { link: string; platform: string }[]) => {
+    const updatedCards = data.map((item) => ({
+      linkURL: item.link,
+      editing: false,
+      platform: item.platform,
+    }));
+    setCards(updatedCards);
   };
+  
 
   // Getting User Info from Me route
   const getUserInfo = useCallback((token: string) => {
@@ -114,7 +125,10 @@ const Profile: React.FC = () => {
     axios.get("http://localhost:8080/api/v1/user/me", config).then((res) => {
       if (res.status === 200) {
         setUserData(res.data);
-        showCardsFromDB(res.data?.savedUrls);
+        const savedUrls = res.data?.savedUrls;
+      if (savedUrls) {
+        showCardsFromDB(savedUrls);
+      }
       } else {
         localStorage.removeItem("tapbio-token");
         router.push("/");
@@ -174,12 +188,7 @@ const Profile: React.FC = () => {
                                 userData?.savedUrls[index]?.platform
                               }
                               onValueChange={(e) => {
-                                setPlatform((prev) => {
-                                  const updatedCards: any = [...prev];
-                                  updatedCards[index] = e.valueOf();
-                                  handlePlatformChange(index, e);
-                                  return updatedCards;
-                                });
+                                handlePlatformChange(index, e);
                               }}>
                               <SelectTrigger id="platform">
                                 <SelectValue placeholder="Select" />
@@ -220,7 +229,7 @@ const Profile: React.FC = () => {
                             <Label htmlFor="name">{card.linkURL}</Label>
                           </div>
                           <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="name">{platform[index]}</Label>
+                            <Label htmlFor="name">{card.platform}</Label>
                           </div>
                         </div>
                       </form>
@@ -250,7 +259,6 @@ const Profile: React.FC = () => {
       <div className="flex justify-center w-[30%]">
         <Mobile
           cards={cards}
-          platform={platform}
           user={userData?.name! || userData?.username!}
         />
       </div>
