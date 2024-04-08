@@ -1,4 +1,5 @@
-"use client";
+"use client"
+
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import ButtonCard from "@/components/ButtonCard/Button";
@@ -19,6 +20,9 @@ const UserPage = () => {
       });
   }, []);
 
+  // Log the contents of userData?.urls to the console
+  console.log(userData?.urls);
+
   return (
     <>
       <div className="flex flex-col space-y-7 justify-center items-center w-screen h-screen text-black bg-gradient-to-b from-teal-400 to-blue-500">
@@ -28,7 +32,11 @@ const UserPage = () => {
         </div>
         <div className="w-80 flex flex-col space-y-5">
           {userData?.urls.map((card, index) => (
-              <ButtonCard linkName={card.platform} key={index} linkURL={card.linkURL} />
+            <ButtonCard
+              linkName={card.platform}
+              key={index}
+              linkURL={card.link}
+            />
           ))}
         </div>
       </div>
