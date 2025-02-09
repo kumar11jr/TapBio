@@ -49,22 +49,21 @@ export default function SignIn() {
       password: String(data.get("password")),
     };
     if (dataDestruct.email && dataDestruct.password.length >= 8) {
-      try {
-        axios
-          .post("http://localhost:8080/api/v1/user/signin", {
-            email: dataDestruct.email,
-            password: dataDestruct.password,
-          })
-          .then(async (res: any) => {
-            if (res.status == 200) {
-              localStorage.setItem("tapbio-token", res.data.token);
-              auth.setAuthStatus(true);
-              router.push("/profile");
-            }
-          });
-      } catch (error) {
-        throw error;
-      }
+      axios
+        .post("http://localhost:8080/api/v1/user/signin", {
+          email: dataDestruct.email,
+          password: dataDestruct.password,
+        })
+        .then(async (res: any) => {
+          if (res.status == 200) {
+            localStorage.setItem("tapbio-token", res.data.token);
+            auth.setAuthStatus(true);
+            router.push("/profile");
+          }
+        })
+        .catch((error) => {
+          console.error("Error signing in:", error);
+        });
     }
   };
 

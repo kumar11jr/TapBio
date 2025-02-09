@@ -1,4 +1,4 @@
-import { Client, Databases, ID } from "appwrite";
+import { Client, Databases} from "appwrite";
 import config from "./config";
 
 const appwriteClient = new Client();
@@ -34,31 +34,23 @@ class AppwriteDatabase {
     url: string[];
     name: string;
   }) {
-    try {
-      database
-        .createDocument("testdb", "testcollection", uid, {
-          uid,
-          platform,
-          url,
-          name,
-        })
-        .then((res) => {
-          if (res.$id) return res;
-        })
-        .catch((err) => {
-          return err;
-        });
-    } catch (error) {
-      throw error;
-    }
+    return database
+      .createDocument("testdb", "testcollection", uid, {
+        uid,
+        platform,
+        url,
+        name,
+      })
+      .then((res) => {
+        if (res.$id) return res;
+      })
+      .catch((err) => {
+        throw err;
+      });
   }
 
   async get() {
-    try {
-      return await database.listDocuments("testdb", "testcollection");
-    } catch (error) {
-      throw error;
-    }
+    return database.listDocuments("testdb", "testcollection");
   }
 }
 
