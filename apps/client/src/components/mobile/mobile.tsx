@@ -1,6 +1,5 @@
 import React from "react";
 import ButtonCard from "../ButtonCard/Button";
-import Image from "next/image";
 
 interface CardItem {
   linkURL: string;

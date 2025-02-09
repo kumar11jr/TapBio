@@ -1,4 +1,4 @@
-import { ID,Account, Client } from "appwrite";
+import { Account, Client } from "appwrite";
 import config from "./config";
 
 interface ICreateAccount {
@@ -36,34 +36,30 @@ export class AppwriteService {
   }
 
   async login({ email, password }: { email: string; password: string }) {
-    try {
-      return await account.createEmailSession(email, password);
-    } catch (error: any) {
-      throw error;
-    }
+    return await account.createEmailSession(email, password);
   }
 
   async isLoggedIn(): Promise<boolean> {
     try {
       const data = await this.getUser();
       return Boolean(data);
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
     return false;
   }
 
   async getUser() {
     try {
       return await account.get();
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
     return null;
   }
 
   async logout() {
-    try {
-      return await account.deleteSession("current");
-    } catch (error) {
-      throw error;
-    }
+    return await account.deleteSession("current");
   }
 }
 

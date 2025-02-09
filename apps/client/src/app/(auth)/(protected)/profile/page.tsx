@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 "use client";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -37,7 +38,7 @@ const Profile: React.FC = () => {
     savedUrls: [{link: string; platform: string;}];
   }>();
   const [authToken, setAuthToken] = useState<string | null>();
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const router = useRouter();
 
   const addCard = () => {

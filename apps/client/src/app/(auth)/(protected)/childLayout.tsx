@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import useAuth from "@/context/auth/useAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
