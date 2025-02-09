@@ -1,6 +1,6 @@
 import { Schema, connect, model } from "mongoose";
 
-connect("mongodb://localhost:27017/tapbio"); //replace with your mongoDb instance
+connect(process.env.NEXT_PUBLIC_DB_URL); //replace with your mongoDb instance
 
 const userSchema = new Schema({
   email: {

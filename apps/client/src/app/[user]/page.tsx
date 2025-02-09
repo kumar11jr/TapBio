@@ -31,7 +31,7 @@ const UserPage = () => {
           <h1 className="text-xl mx-auto">{userData?.name}</h1>
         </div>
         <div className="w-80 flex flex-col space-y-5">
-          {userData?.urls.map((card, index) => (
+          {userData?.urls.map((card: { platform: string | undefined; link: string; }, index: React.Key | null | undefined) => (
             <ButtonCard
               linkName={card.platform}
               key={index}

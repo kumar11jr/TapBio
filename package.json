@@ -52,6 +52,7 @@
     "react-icons": "^5.0.1",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
+    "tapbio": "file:",
     "zod": "^3.22.4"
   }
 }
